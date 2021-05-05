@@ -1,0 +1,55 @@
+require "application_system_test_case"
+
+class ContributionsTest < ApplicationSystemTestCase
+  setup do
+    @contribution = contributions(:one)
+  end
+
+  test "visiting the index" do
+    visit contributions_url
+    assert_selector "h1", text: "Contributions"
+  end
+
+  test "creating a Contribution" do
+    visit contributions_url
+    click_on "New Contribution"
+
+    fill_in "Content", with: @contribution.content
+    fill_in "Contr subtype", with: @contribution.contr_subtype
+    fill_in "Contr type", with: @contribution.contr_type
+    fill_in "Parent", with: @contribution.parent_id
+    fill_in "Upvote", with: @contribution.upvote
+    fill_in "Url", with: @contribution.url
+    fill_in "User", with: @contribution.user_id
+    click_on "Create Contribution"
+
+    assert_text "Contribution was successfully created"
+    click_on "Back"
+  end
+
+  test "updating a Contribution" do
+    visit contributions_url
+    click_on "Edit", match: :first
+
+    fill_in "Content", with: @contribution.content
+    fill_in "Contr subtype", with: @contribution.contr_subtype
+    fill_in "Contr type", with: @contribution.contr_type
+    fill_in "Parent", with: @contribution.parent_id
+    fill_in "Upvote", with: @contribution.upvote
+    fill_in "Url", with: @contribution.url
+    fill_in "User", with: @contribution.user_id
+    click_on "Update Contribution"
+
+    assert_text "Contribution was successfully updated"
+    click_on "Back"
+  end
+
+  test "destroying a Contribution" do
+    visit contributions_url
+    page.accept_confirm do
+      click_on "Destroy", match: :first
+    end
+
+    assert_text "Contribution was successfully destroyed"
+  end
+end

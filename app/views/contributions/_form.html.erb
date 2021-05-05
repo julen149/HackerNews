@@ -1,0 +1,40 @@
+<%= form_for(@contribution) do |f| %>
+  <% if @contribution.errors.any? %>
+    <div id="error_explanation">
+      <% @contribution.errors.full_messages.each do |message| %>
+        <font class="message"><%= message %></font><br/>
+      <% end %>
+      <br/>
+    </div>
+  <% end %>
+  
+  <%= f.hidden_field :contr_type, value: "post" %>
+  <%= f.hidden_field :contr_subtype, value: "url" %>
+  <%= f.hidden_field :user_id, value: current_user.id %>
+  <%= f.hidden_field :upvote, value: 0 %>
+  <%= f.hidden_field :parent_id, value: "" %>
+  
+  <table>
+    <tr>
+      <td><font color="grey"><%= f.label "title" %></font></td>
+      <td><%= f.text_field :title , :size=>"50" %></td>
+    </tr>
+    <tr>
+      <td><font color="grey"><%= f.label "url" %></font></td>
+      <td><%= f.text_field :url , :size=>"50" %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><font color="grey"><strong>or</strong></font></td>
+    </tr>
+    <tr>
+      <td><font color="grey"><%= f.label "text" %></font></td>
+      <td><%= f.text_area :content , :size=>"50" %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><%= f.submit "submit" %></td>
+    </tr>
+  </table>
+
+<% end %>

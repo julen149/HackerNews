@@ -1,0 +1,23 @@
+<tr class="athing">
+  <td class="ind"></td>
+  <td valign="top">
+  </td>
+  <td class="default">
+    <div style="margin-top:2px; margin-bottom:-10px;">
+        <span class="comhead">
+          <font style="color:black; text-decoration:none"><a style="color:black;text-decoration:none" href="/contributions/discuss/<%= @contribution.id %>"><%= @contribution.title%></a></font>
+        <% if @contribution.contr_subtype != 'ask' %>
+            <font color="grey">(<%= @contribution.url %>)</font>
+        <% end %>
+          </span>
+    </div>
+    <font color="grey">
+          <%= @contribution.upvote %> points by <a style="color:grey;text-decoration:none" href="/users/<%= @contribution.user_id%>"><%= @contribution.user.email%></a>  |  
+          <a style="color:grey;text-decoration:none" href="/discuss?id=<%= @contribution.id %>"><%= time_ago_in_words(@contribution.created_at) %> ago</a>   | 
+          <a style="color:grey;text-decoration:none" href="/discuss?id=<%= @contribution.id %>"><%= @contribution.replies.length %> comments</a>
+          <% if user_signed_in? %>
+            <td><%= button_to '+1', upvote_contribution_path(@contribution), method: :post %></td>
+          <% end %>
+        </font>
+</tr>
+<tr style="height:10px"></tr>

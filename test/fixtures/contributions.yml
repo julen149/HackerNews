@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  contr_type: MyString
+  contr_subtype: MyString
+  content: MyText
+  user_id: 1
+  url: MyString
+  upvote: 1
+  parent_id: 1
+
+two:
+  contr_type: MyString
+  contr_subtype: MyString
+  content: MyText
+  user_id: 1
+  url: MyString
+  upvote: 1
+  parent_id: 1
