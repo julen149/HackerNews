@@ -32,6 +32,14 @@ class ContributionsController < ApplicationController
 
     respond_to do |format|
       if @contribution.save
+        if @contribution.contr_subtype == 'url' and @contribution.content != ''
+          @discuss = Contribution.new
+          @discuss.parent_id = @contribution.id
+          @discuss.contr_type = 'comment' #no he trobat els tipus de contributions que hi ha per tant inuteixo que es diran aixi
+          @discuss.user = @contribution.user #aqui fico que el comentari es de la mateixa persona que el submision -> per cambiar
+          @discuss.content = @contribution.content
+          @discuss.save
+        end
         format.html { redirect_to @contribution, notice: 'Contribution was successfully created.' }
         format.json { render :show, status: :created, location: @contribution }
       else
@@ -54,6 +62,17 @@ class ContributionsController < ApplicationController
     @discuss.parent_id = @contribution.id
     @discuss.contr_type = 'comment' #no he trobat els tipus de contributions que hi ha per tant inuteixo que es diran aixi
     @discuss.user = @contribution.user #aqui fico que el comentari es de la mateixa persona que el submision -> per cambiar
+  end
+  
+  def reply
+    set_contribution
+    if @contribution.contr_type == 'post'
+      raise ActiveRecord::RecordNotFound, 'Trying to reply a contribution of type '+@contribution.contr_type
+    end
+    @reply = Contribution.new
+    @reply.parent_id = @contribution.id
+    @reply.contr_type = 'reply'
+    @reply.user = @contribution.user
   end
 
   # PATCH/PUT /contributions/1

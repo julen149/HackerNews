@@ -16,6 +16,7 @@ class Contribution < ApplicationRecord
     after_initialize :init
 
     def init
+      self.upvote ||= 0
         if self.url.blank?
           self.contr_subtype='ask'
         elsif self.content.blank?

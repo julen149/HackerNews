@@ -8,6 +8,6 @@ class HomeController < ApplicationController
   end
   
   def ask
-     @contributions = Contribution.all;
+    @contributions = Contribution.where(["contr_type = 'post'  and (contr_subtype = 'ask')"]).all.order('upvote DESC');
   end
 end

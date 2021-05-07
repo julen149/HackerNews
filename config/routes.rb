@@ -11,7 +11,9 @@ Rails.application.routes.draw do
   root 'home#index'
   post '/vote' => 'votes#create'
   get '/home/new'
+  get '/home/ask'
   post '/contributions' => 'contributions#show'
   get '/contributions/discuss/:id' => 'contributions#discuss'
+  get '/contributions/reply/:id' => 'contributions#reply'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

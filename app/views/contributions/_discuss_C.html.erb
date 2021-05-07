@@ -22,7 +22,10 @@
           </span>
           <br>
           <font size="2">
-            <%= commentary.vote.length %> votes <u><a href="reply?id=<%= commentary.id %>">reply</a></u>
+            <%= commentary.vote.length %> votes <u><a href="/contributions/reply/<%= commentary.id %>">reply</a></u>
+            <% if user_signed_in? %>
+            <td><%= button_to '+1', upvote_contribution_path(commentary), method: :post %></td>
+            <% end %>
           </font>
         </td>
       </tr>

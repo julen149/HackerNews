@@ -1,0 +1,29 @@
+<% content_for :title, "Hacker News" %>
+<head>
+</head>
+<body>
+
+  <table bgcolor= #f6f6ec width="100%">
+    <% @contributions.each do |contribution| %>
+    <tr>
+      <td>
+        <font style="color:black; text-decoration:none"><a style="color:black;text-decoration:none" href="/contributions/discuss/<%= contribution.id %>"><%= contribution.title%></a></font>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <font color="grey">
+          <%= contribution.upvote %> points by <a style="color:grey;text-decoration:none" href="/users/<%= contribution.user_id%>"><%= contribution.user.email%></a>  |  
+          <a style="color:grey;text-decoration:none" href="/contributions/discuss/<%= contribution.id %>"><%= time_ago_in_words(contribution.created_at) %> ago</a>   | 
+          <a style="color:grey;text-decoration:none" href="/contributions/discuss/<%= contribution.id %>"><%= contribution.replies.length %> comments</a>
+          <% if user_signed_in? %>
+            <td><%= button_to '+1', upvote_contribution_path(contribution), method: :post %></td>
+          <% end %>
+        </font>
+      </td>
+    </tr>
+    <tr class="spacer" style="height:5px"></tr>
+    <% end %>                
+  </table>
+
+</body>

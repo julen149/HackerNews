@@ -29,6 +29,16 @@
         <%= render 'discuss_C', commentary: comment %>
         <% comment.replies.each do |reply| %>
             <td style="margin-left: 20px"><%= render 'discuss_R', reply: reply %> </td>
+            <% reply.replies.each do |reply| %>
+              <table style="margin-left:50px" border="0">
+              <td style="margin-left: 20px"><%= render 'discuss_R', reply: reply %> </td>
+              </table>
+                <% reply.replies.each do |reply| %>
+                  <table style="margin-left:100px" border="0">
+                  <td style="margin-left: 20px"><%= render 'discuss_R', reply: reply %> </td>
+                  </table>
+                <% end %>
+            <% end %>
         <% end %>
     <% end %>
   </tr>

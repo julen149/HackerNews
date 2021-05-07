@@ -7,9 +7,11 @@
     <% @contributions.each do |contribution| %>
     <tr>
       <td>
-        <font style="color:black; text-decoration:none"><a style="color:black;text-decoration:none" href="/contributions/discuss/<%= contribution.id %>"><%= contribution.title%></a></font>
         <% if contribution.contr_subtype != 'ask' %>
+            <font style="color:black; text-decoration:none"><a style="color:black;text-decoration:none" href="<%= contribution.url %>"><%= contribution.title%></a></font>
             <font color="grey">(<%= contribution.url %>)</font>
+        <% else %>
+            <font style="color:black; text-decoration:none"><a style="color:black;text-decoration:none" href="/contributions/discuss/<%= contribution.id %>"><%= contribution.title%></a></font>
         <% end %>
       </td>
     </tr>
@@ -17,8 +19,8 @@
       <td>
         <font color="grey">
           <%= contribution.upvote %> points by <a style="color:grey;text-decoration:none" href="/users/<%= contribution.user_id%>"><%= contribution.user.email%></a>  |  
-          <a style="color:grey;text-decoration:none" href="/discuss?id=<%= contribution.id %>"><%= time_ago_in_words(contribution.created_at) %> ago</a>   | 
-          <a style="color:grey;text-decoration:none" href="/discuss?id=<%= contribution.id %>"><%= contribution.replies.length %> comments</a>
+          <a style="color:grey;text-decoration:none" href="/contributions/discuss/<%= contribution.id %>"><%= time_ago_in_words(contribution.created_at) %> ago</a>   | 
+          <a style="color:grey;text-decoration:none" href="/contributions/discuss/<%= contribution.id %>"><%= contribution.replies.length %> comments</a>
           <% if user_signed_in? %>
             <td><%= button_to '+1', upvote_contribution_path(contribution), method: :post %></td>
           <% end %>
