@@ -15,5 +15,10 @@ Rails.application.routes.draw do
   post '/contributions' => 'contributions#show'
   get '/contributions/discuss/:id' => 'contributions#discuss'
   get '/contributions/reply/:id' => 'contributions#reply'
+  
+  get '/api/posts/url' => 'contributions#api_url'
+  get '/api/posts/ask' => 'contributions#api_ask'
+  
+  post '/api/posts' => 'contributions#create_posts_api'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

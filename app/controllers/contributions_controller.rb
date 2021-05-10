@@ -111,6 +111,37 @@ class ContributionsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def api_url
+    @contributions = Contribution.where(["contr_type = 'post' and contr_subtype='url'"]).all.order('CREATED_AT DESC');
+    render json: @contributions
+  end
+  
+  def api_ask
+    @contributions = Contribution.where(["contr_type = 'post'  and contr_subtype = 'ask'"]).all.order('CREATED_AT DESC');
+    render json: @contributions
+  end
+  
+  def create_posts_api
+    @contribution = Contribution.new({title: params['title']})
+    @contribution.user_id = current_user.id
+    @contribution.contr_type= 'post'
+    @contribution.title = params[:title]
+
+    unless params['ask'].blank?
+      @contribution.contr_subtype ='ask'
+      @contribution.content = params['ask']
+    end
+    unless params['url'].blank?
+      @contribution.contr_subtype = 'url'
+      @contribution.url = params['url']
+    end
+    if @contribution.save
+      render json: @contribution, id: @contribution.id
+    else
+      render json: @contribution.errors, status: :bad_request
+    end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
