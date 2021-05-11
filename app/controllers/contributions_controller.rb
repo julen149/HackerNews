@@ -1,5 +1,6 @@
 class ContributionsController < ApplicationController
   before_action :set_contribution, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate, only: [:create_posts_api, :create_reply_api]
 
   # GET /contributions
   # GET /contributions.json
@@ -122,15 +123,48 @@ class ContributionsController < ApplicationController
     render json: @contributions
   end
   
+  def api_comment
+    set_contribution
+    if @contribution.nil? || @contribution.contr_type != 'comment'
+      render :json => {:error => "not-found"}.to_json, :status => 404
+    else
+      render json: {:contribution => @contribution, :replies => @contribution.replies}.to_json, status: :ok
+    end
+  rescue ActiveRecord::RecordNotFound
+    render_not_found
+  end
+  
+  def api_post
+    set_contribution
+    if @contribution.nil? || @contribution.contr_type != 'post'
+      render :json => {:error => "not-found"}.to_json, :status => 404
+    else
+      render json: {:contribution => @contribution, :comments => @contribution.replies}.to_json, status: :ok
+    end
+  rescue ActiveRecord::RecordNotFound
+    render_not_found
+  end
+  
+  def api_get_reply
+    set_contribution
+    if @contribution.nil? || @contribution.contr_type != 'reply'
+      render :json => {:error => "not-found"}.to_json, :status => 404
+    else
+      render json: {:contribution => @contribution}.to_json, status: :ok
+    end
+  rescue ActiveRecord::RecordNotFound
+    render_not_found
+  end
+  
   def create_posts_api
     @contribution = Contribution.new({title: params['title']})
-    @contribution.user_id = current_user.id
+    @contribution.user_id = @api_user.id
     @contribution.contr_type= 'post'
     @contribution.title = params[:title]
 
-    unless params['ask'].blank?
+    unless params['content'].blank?
       @contribution.contr_subtype ='ask'
-      @contribution.content = params['ask']
+      @contribution.content = params['content']
     end
     unless params['url'].blank?
       @contribution.contr_subtype = 'url'
@@ -138,6 +172,36 @@ class ContributionsController < ApplicationController
     end
     if @contribution.save
       render json: @contribution, id: @contribution.id
+    else
+      render json: @contribution.errors, status: :bad_request
+    end
+  end
+  
+  def create_reply_api
+    @contribution = Contribution.new({content: params['reply']})
+    @contribution.user_id = @api_user.id
+    @contribution.contr_type= 'reply'
+    @contribution.parent_id = params[:parent_id]
+    @contribution.content = params[:content]
+    if @contribution.save
+      render json: @contribution, id: @contribution.id
+    else
+      render json: @contribution.errors, status: :bad_request
+    end
+  end
+  
+  def create_comment_api
+    @contribution = Contribution.new({content: params['comment']})
+    @contribution.user_id = @api_user.id
+    @contribution.contr_type= 'comment'
+    @contribution.parent_id = params[:parent_id]
+    @contribution.content = params[:content]
+    if @contribution.parent.contr_type != 'post'
+      render json: {:error => 'Comentari en una contribució que no es de tipus post'}
+      return
+    end
+    if @contribution.save
+      render json: @contribution, status: :ok
     else
       render json: @contribution.errors, status: :bad_request
     end

@@ -4,12 +4,12 @@
     <table border="0">
       <tbody>
       <tr>
-        <td valign="top">Name:</td>
-        <td><%= @user.name %></td>
-      </tr>
-      <tr>
         <td valign="top">Email :</td>
         <td><%= @user.email %></td>
+      </tr>
+      <tr>
+        <td valign="top">API key :</td>
+        <td><%= @user.encrypted_password %></td>
       </tr>
       <tr>
         <td valign="top">Karma:</td>
@@ -21,6 +21,7 @@
       </tr>
       </tbody>
     </table>
+    <%= link_to 'Sign out', destroy_user_session_path, method: :delete %>
     <br><br>
   </td>
 </tr>

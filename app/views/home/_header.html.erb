@@ -46,7 +46,7 @@
                        <% if not user_signed_in? %>
                           <%= link_to 'Login', new_user_session_path %>
                        <% else %>
-                          <%= link_to 'Sign out', destroy_user_session_path, method: :delete %>
+                          <a href="/users/<%= current_user.id %>" style="color:black;text-decoration:none"><%= current_user.email %></a>
                        <% end %>
                     </b>
                   </span>
