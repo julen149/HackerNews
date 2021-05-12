@@ -1,6 +1,6 @@
 class ContributionsController < ApplicationController
   before_action :set_contribution, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate, only: [:create_posts_api, :create_reply_api]
+  before_action :authenticate, only: [:create_posts_api, :create_reply_api, :create_comment_api]
 
   # GET /contributions
   # GET /contributions.json
