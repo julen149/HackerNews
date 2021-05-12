@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  
+  before_action :authenticate, only: [:api_update, :api_me]
+  before_action :set_karma, only: [:show]
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
@@ -26,6 +29,30 @@ class Users::RegistrationsController < Devise::RegistrationsController
   
   def show
     @user = User.find(params[:id])
+  end
+  
+  def api_show
+    set_user
+    render json: @user
+  end
+  
+  def api_update
+    if params[:id].to_s != @api_user.id.to_s
+      render_unauthorized
+    else
+      @api_user.update(user_params)
+      render json: @api_user
+    end
+  end
+  
+  def api_threads
+    set_user
+    @contribution = (@user.contribution).where("contr_type = 'comment' or contr_type = 'reply'")
+    render json: @contribution
+  end
+  
+  def api_me
+    render json: @api_user
   end
 
   # DELETE /resource
@@ -63,4 +90,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+  
+  private
+  
+  def set_user
+    @user = User.find(params[:id])
+  end
+  
+  def user_params
+    params.permit(:email)
+  end
+  
+  def set_karma
+    set_user
+    @karma=0
+    @user.contribution.each do |i|
+      @karma+=i.vote.length
+    end
+  end
+  
 end

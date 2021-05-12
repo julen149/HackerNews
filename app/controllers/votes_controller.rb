@@ -1,5 +1,6 @@
 class VotesController < ApplicationController
   before_action :set_vote, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate, only: [:create_api]
 
   # GET /votes
   # GET /votes.json
@@ -67,6 +68,20 @@ class VotesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to votes_url, notice: 'Vote was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+  
+  def show_api
+    set_vote
+    render json: {:vote => @vote}.to_json, status: :ok
+  end
+  
+  def create_api
+    @vote = Vote.new({contribution_id: params['contribution_id']})
+    @vote.user_id = @api_user.id
+    if @vote.save
+    else
+      render json: @vote.errors, status: :bad_request
     end
   end
 
