@@ -80,6 +80,9 @@ class VotesController < ApplicationController
     @vote = Vote.new({contribution_id: params['contribution_id']})
     @vote.user_id = @api_user.id
     if @vote.save
+      @contribution = Contribution.find(params['contribution_id'])
+      @contribution.upvote += 1;
+      @contribution.save
     else
       render json: @vote.errors, status: :bad_request
     end

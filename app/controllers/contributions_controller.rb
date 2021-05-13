@@ -128,7 +128,7 @@ class ContributionsController < ApplicationController
     if @contribution.nil? || @contribution.contr_type != 'comment'
       render :json => {:error => "not-found"}.to_json, :status => 404
     else
-      render json: {:contribution => @contribution, :replies => @contribution.replies}.to_json, status: :ok
+      render json: {:comment => @contribution, :replies => @contribution.replies}.to_json, status: :ok
     end
   rescue ActiveRecord::RecordNotFound
     render_not_found
@@ -150,7 +150,7 @@ class ContributionsController < ApplicationController
     if @contribution.nil? || @contribution.contr_type != 'reply'
       render :json => {:error => "not-found"}.to_json, :status => 404
     else
-      render json: {:contribution => @contribution}.to_json, status: :ok
+      render json: {:reply => @contribution, :replies => @contribution.replies}.to_json, status: :ok
     end
   rescue ActiveRecord::RecordNotFound
     render_not_found
