@@ -41,7 +41,7 @@ paths:
   /api/posts/{id}:
     get:
       tags:
-      - contribution
+      - contributions
       summary: Finds a Post
       operationId: getContribution
       parameters:
@@ -59,6 +59,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Post'
+        404:
+          description: 'Error: Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+                  
+  /api/comments/{id}:
+    get:
+      tags:
+      - comment
+      summary: Finds a Comment
+      operationId: getComment
+      parameters:
+      - name: id
+        in: path
+        description: Comment id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Comment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
         404:
           description: 'Error: Not Found'
           content:
