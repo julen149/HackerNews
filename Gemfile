@@ -24,6 +24,10 @@ group :development do
   gem 'spring',             '2.1.1'
 end
 
+group :production do
+  gem 'pg', '1.2.3'
+end
+
 group :test do
   gem 'capybara',           '3.35.3'
   gem 'selenium-webdriver', '3.142.7'
