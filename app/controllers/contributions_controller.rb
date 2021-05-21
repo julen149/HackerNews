@@ -113,6 +113,11 @@ class ContributionsController < ApplicationController
     end
   end
   
+  def api_all
+    @contributions = Contribution.where(["contr_type = 'post'  and (contr_subtype = 'ask' or contr_subtype = 'url')"]).all.order('CREATED_AT DESC');
+    render json: @contributions
+  end
+  
   def api_url
     @contributions = Contribution.where(["contr_type = 'post' and contr_subtype='url'"]).all.order('CREATED_AT DESC');
     render json: @contributions
