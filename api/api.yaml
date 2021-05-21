@@ -306,7 +306,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/Us'
         404:
           description: 'Error: Not Found'
           content:
@@ -563,6 +563,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Contribution'
+            
+    Us:
+      type: object
+      properties:
+        User:
+          $ref: '#/components/schemas/User'
+        Karma:
+          type: array
+          items:
+            $ref: '#/components/schemas/Karma'
           
     Comment:
       type: object
@@ -600,6 +610,14 @@ components:
         updated_at:
           type: string
           format: date-time
+          
+    Karma:
+      type: object
+      properties:
+        karma:
+          type: integer
+          format: int32
+          example: 1
       
     Vote:
       type: object

@@ -33,7 +33,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   
   def api_show
     set_user
-    render json: @user
+    set_karma
+    render json: {:user => @user, :karma => @karma}.to_json, status: :ok
   end
   
   def api_update
