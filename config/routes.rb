@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     get 'api/me' => 'users/registrations#api_me'
   end
   
+  get '/api/posts/all' => 'contributions#api_all'
   get '/api/posts/url' => 'contributions#api_url'
   get '/api/posts/ask' => 'contributions#api_ask'
   get '/api/comments/:id' => 'contributions#api_comment'

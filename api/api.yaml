@@ -7,6 +7,22 @@ servers:
   - url: 'https://afternoon-hamlet-99408.herokuapp.com'
 paths:
 
+  /api/posts/all:
+    get:
+      tags:
+      - Contributions
+      summary: Retrieves all the url Contributions
+      operationId: getAllContributions
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Contribution'
+
   /api/posts/url:
     get:
       tags:
