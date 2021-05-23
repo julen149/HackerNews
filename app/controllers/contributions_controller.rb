@@ -128,6 +128,15 @@ class ContributionsController < ApplicationController
     render json: @contributions
   end
   
+  def api_num_comments
+    set_contribution
+    if @contribution.nil?
+      render :json => {:error => "not-found"}.to_json, :status => 404
+    else
+      render json: @contribution.replies.count
+    end
+  end
+  
   def api_comment
     set_contribution
     if @contribution.nil? || @contribution.contr_type != 'comment'

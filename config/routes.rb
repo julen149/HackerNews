@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   get '/api/posts/all' => 'contributions#api_all'
   get '/api/posts/url' => 'contributions#api_url'
   get '/api/posts/ask' => 'contributions#api_ask'
+  get '/api/posts/n_comm/:id' => 'contributions#api_num_comments'
   get '/api/comments/:id' => 'contributions#api_comment'
   get '/api/posts/:id' => 'contributions#api_post'
   get '/api/replies/:id' => 'contributions#api_get_reply'
