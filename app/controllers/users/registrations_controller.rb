@@ -53,7 +53,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
   
   def api_me
-    render json: @api_user
+    @karma=0
+    @api_user.contribution.each do |i|
+      @karma+=i.vote.length
+    end
+    render json: {:user => @api_user, :karma => @karma}.to_json, status: :ok
   end
 
   # DELETE /resource
