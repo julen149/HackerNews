@@ -1,6 +1,6 @@
 class ContributionsController < ApplicationController
   before_action :set_contribution, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate, only: [:create_posts_api, :create_reply_api, :create_comment_api]
+  before_action :authenticate, only: [:create_posts_api, :create_reply_api, :create_comment_api, :api_sub]
 
   # GET /contributions
   # GET /contributions.json
@@ -127,14 +127,11 @@ class ContributionsController < ApplicationController
     @contributions = Contribution.where(["contr_type = 'post'  and contr_subtype = 'ask'"]).all.order('CREATED_AT DESC');
     render json: @contributions
   end
-  
-  def api_num_comments
-    set_contribution
-    if @contribution.nil?
-      render :json => {:error => "not-found"}.to_json, :status => 404
-    else
-      render json: @contribution.replies.count
-    end
+
+  def api_sub
+  @contributions = Contribution.where(user_id: @api_user.id);
+  @contributions = @contributions.where(["contr_type = 'post'"]).all.order('CREATED_AT DESC');
+    render json: @contributions
   end
   
   def api_comment
